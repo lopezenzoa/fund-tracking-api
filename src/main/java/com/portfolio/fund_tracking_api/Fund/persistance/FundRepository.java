@@ -2,35 +2,46 @@ package com.portfolio.fund_tracking_api.Fund.persistance;
 
 import com.portfolio.fund_tracking_api.Fund.model.Fund;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Repository;
 import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+@Repository
 @AllArgsConstructor
 public class FundRepository {
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final String filePath;
+    private ObjectMapper mapper;
 
-    public void write(Fund model) {
-        String content = mapper.writeValueAsString(model);
+    public void save(Fund fund) {
+        String rawFund = mapper.writeValueAsString(fund);
+        Path path = buildPath(fund.getName());
 
         try {
             // Overwrites the file if it exists, or creates a new one
-            Files.writeString(Path.of(filePath), content);
-            System.out.println("Successfully wrote to the file.");
+            Files.writeString(path, rawFund);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public Fund read() {
+    public Fund read(String fundName) {
         try {
-            String content = Files.readString(Path.of(filePath));
-            return mapper.readValue(content, Fund.class);
+            if (fundName == null || fundName.isBlank())
+                throw new IllegalArgumentException("Fund Name Not Found");
+
+            Path path = buildPath(fundName);
+
+            String rawFund = Files.readString(path);
+
+            return mapper.readValue(rawFund, Fund.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private Path buildPath(String fundName) {
+        return Path.of("src/main/resources/data/" + fundName + ".json");
     }
 }

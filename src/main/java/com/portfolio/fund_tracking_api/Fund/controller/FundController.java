@@ -16,7 +16,7 @@ public class FundController {
     public ResponseEntity<?> getComplete(@PathVariable String fundName) {
         try {
             return ResponseEntity.ok(service.getComplete(fundName));
-        } catch (InvalidAttributeValueException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
@@ -25,7 +25,7 @@ public class FundController {
     public ResponseEntity<?> getHoldings(@PathVariable String fundName) {
         try {
             return ResponseEntity.ok(service.getHoldings(fundName));
-        } catch (InvalidAttributeValueException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
@@ -34,7 +34,7 @@ public class FundController {
     public ResponseEntity<?> getBreakdown(@PathVariable String fundName) {
         try {
             return ResponseEntity.ok(service.getBreakdown(fundName));
-        } catch (InvalidAttributeValueException e) {
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e);
         }
     }
