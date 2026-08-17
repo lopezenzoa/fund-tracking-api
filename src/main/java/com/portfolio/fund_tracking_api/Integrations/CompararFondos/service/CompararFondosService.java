@@ -1,8 +1,7 @@
 package com.portfolio.fund_tracking_api.Integrations.CompararFondos.service;
 
 import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.CompararFondosDTO;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import tools.jackson.core.JacksonException;
 import tools.jackson.databind.ObjectMapper;
 
@@ -14,21 +13,19 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
-@Service
+@Component
 public class CompararFondosService {
 
     private final HttpClient httpClient;
     private final ObjectMapper mapper;
-    private final String baseUrl;
+    private final String BASE_URL = "https://compararfondos.com.ar/api/";
 
     // Injected via Spring IoC
     public CompararFondosService(
             HttpClient httpClient,
-            ObjectMapper mapper,
-            @Value("${compararfondos.api.url:https://compararfondos.com.ar/api/}") String baseUrl) {
+            ObjectMapper mapper) {
         this.httpClient = httpClient;
         this.mapper = mapper;
-        this.baseUrl = baseUrl;
     }
 
     // Single responsibility method that returns the DTO directly
@@ -51,7 +48,7 @@ public class CompararFondosService {
 
     public HttpResponse<String> fetchFund(String fundName) throws IOException, InterruptedException {
         String encodedFundName = URLEncoder.encode(fundName, StandardCharsets.UTF_8);
-        URI uri = URI.create(baseUrl + "composicion/" + encodedFundName);
+        URI uri = URI.create(BASE_URL + "composicion/" + encodedFundName);
 
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
