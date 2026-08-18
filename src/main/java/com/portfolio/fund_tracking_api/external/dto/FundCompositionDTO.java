@@ -1,4 +1,4 @@
-package com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto;
+package com.portfolio.fund_tracking_api.external.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

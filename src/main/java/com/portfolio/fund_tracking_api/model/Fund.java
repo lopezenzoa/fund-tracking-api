@@ -1,4 +1,4 @@
-package com.portfolio.fund_tracking_api.Fund.model;
+package com.portfolio.fund_tracking_api.model;
 
 import lombok.*;
 

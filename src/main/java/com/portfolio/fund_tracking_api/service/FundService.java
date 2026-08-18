@@ -1,12 +1,12 @@
-package com.portfolio.fund_tracking_api.Fund.service;
+package com.portfolio.fund_tracking_api.service;
 
-import com.portfolio.fund_tracking_api.Fund.model.Fund;
-import com.portfolio.fund_tracking_api.Fund.model.Holding;
-import com.portfolio.fund_tracking_api.Fund.persistance.FundRepository;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.adapter.CompararFondosAdapter;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundCompositionDTO;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundHistoryDTO;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.service.CompararFondosService;
+import com.portfolio.fund_tracking_api.model.Fund;
+import com.portfolio.fund_tracking_api.model.Holding;
+import com.portfolio.fund_tracking_api.persistance.FundRepository;
+import com.portfolio.fund_tracking_api.external.adapters.CompararFondosAdapter;
+import com.portfolio.fund_tracking_api.external.dto.FundCompositionDTO;
+import com.portfolio.fund_tracking_api.external.dto.FundHistoryDTO;
+import com.portfolio.fund_tracking_api.external.service.CompararFondosService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.stereotype.Service;

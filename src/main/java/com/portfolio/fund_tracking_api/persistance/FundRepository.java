@@ -1,6 +1,6 @@
-package com.portfolio.fund_tracking_api.Fund.persistance;
+package com.portfolio.fund_tracking_api.persistance;
 
-import com.portfolio.fund_tracking_api.Fund.model.Fund;
+import com.portfolio.fund_tracking_api.model.Fund;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 import tools.jackson.databind.ObjectMapper;

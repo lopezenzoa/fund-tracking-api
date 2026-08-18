@@ -1,9 +1,9 @@
-package com.portfolio.fund_tracking_api.Integrations.CompararFondos.adapter;
+package com.portfolio.fund_tracking_api.external.adapters;
 
-import com.portfolio.fund_tracking_api.Fund.model.Fund;
-import com.portfolio.fund_tracking_api.Fund.model.Holding;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundCompositionDTO;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundHistoryDTO;
+import com.portfolio.fund_tracking_api.model.Fund;
+import com.portfolio.fund_tracking_api.model.Holding;
+import com.portfolio.fund_tracking_api.external.dto.FundCompositionDTO;
+import com.portfolio.fund_tracking_api.external.dto.FundHistoryDTO;
 import lombok.NoArgsConstructor;
 
 import java.util.Collections;

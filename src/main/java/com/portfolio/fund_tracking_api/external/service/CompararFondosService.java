@@ -1,7 +1,7 @@
-package com.portfolio.fund_tracking_api.Integrations.CompararFondos.service;
+package com.portfolio.fund_tracking_api.external.service;
 
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundCompositionDTO;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundHistoryDTO;
+import com.portfolio.fund_tracking_api.external.dto.FundCompositionDTO;
+import com.portfolio.fund_tracking_api.external.dto.FundHistoryDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import tools.jackson.core.JacksonException;

@@ -1,11 +1,9 @@
-package com.portfolio.fund_tracking_api.Fund.controller;
+package com.portfolio.fund_tracking_api.controller;
 
-import com.portfolio.fund_tracking_api.Fund.service.FundService;
+import com.portfolio.fund_tracking_api.service.FundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.management.InvalidAttributeValueException;
 
 @RestController
 @RequestMapping("/api/fund")
