@@ -2,26 +2,38 @@ package com.portfolio.fund_tracking_api.Integrations.CompararFondos.adapter;
 
 import com.portfolio.fund_tracking_api.Fund.model.Fund;
 import com.portfolio.fund_tracking_api.Fund.model.Holding;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.CompararFondosDTO;
+import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundCompositionDTO;
+import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundHistoryDTO;
+import lombok.NoArgsConstructor;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@NoArgsConstructor
 public class CompararFondosAdapter {
-    public static Fund mapToFund(CompararFondosDTO dto) {
-        if (dto == null || dto.getComposition() == null) {
-            return null;
-        }
+    private FundCompositionDTO composition;
+    private FundHistoryDTO history;
 
-        CompararFondosDTO.CompositionDTO composition = dto.getComposition();
+    public CompararFondosAdapter setComposition(FundCompositionDTO composition) {
+        this.composition = composition;
+        return this;
+    }
+
+    public CompararFondosAdapter setHistory(FundHistoryDTO history) {
+        this.history = history;
+        return this;
+    }
+
+    public Fund map() {
+        FundCompositionDTO.CompositionDTO composition = this.composition.getComposition();
 
         Map<String, Double> breakdownMap = composition.getBreakdown() != null
                 ? composition.getBreakdown().stream()
                 .collect(Collectors.toMap(
-                        CompararFondosDTO.BreakdownItemDTO::getCategory,
-                        CompararFondosDTO.BreakdownItemDTO::getPercentage,
+                        FundCompositionDTO.BreakdownItemDTO::getCategory,
+                        FundCompositionDTO.BreakdownItemDTO::getPercentage,
                         (existing, replacement) -> existing
                 ))
                 : Collections.emptyMap();
@@ -32,10 +44,13 @@ public class CompararFondosAdapter {
                 .collect(Collectors.toSet())
                 : Collections.emptySet();
 
+        FundHistoryDTO.HistoryEntryDTO historyEntries = this.history.getHistory().getLast();
+
         return new Fund(
                 composition.getBaseName(),
                 composition.getDate(),
                 composition.getTotalHoldings(),
+                historyEntries.getShareValue(),
                 breakdownMap,
                 holdings
         );
