@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
-public class CompararFondosDTO {
+public class FundCompositionDTO {
 
     @JsonProperty("status")
     private String status;
