@@ -1,14 +1,15 @@
 package com.portfolio.fund_tracking_api.external.adapters;
 
 import com.portfolio.fund_tracking_api.model.Fund;
+import com.portfolio.fund_tracking_api.model.History;
 import com.portfolio.fund_tracking_api.model.Holding;
 import com.portfolio.fund_tracking_api.external.dto.FundCompositionDTO;
 import com.portfolio.fund_tracking_api.external.dto.FundHistoryDTO;
 import lombok.NoArgsConstructor;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
@@ -26,7 +27,7 @@ public class CompararFondosAdapter {
         return this;
     }
 
-    public Fund map() {
+    public Fund adaptToFund() {
         FundCompositionDTO.CompositionDTO composition = this.composition.getComposition();
 
         Map<String, Double> breakdownMap = composition.getBreakdown() != null
@@ -54,5 +55,33 @@ public class CompararFondosAdapter {
                 breakdownMap,
                 holdings
         );
+    }
+
+    public History adaptToHistory() {
+        History history = new History();
+
+        history.setFundName(this.history.getName());
+
+        // Map of share values
+        Map<String, Double> shareValues = new TreeMap<>();
+
+        this.history.getHistory()
+                .forEach(historyEntry -> shareValues.put(
+                        historyEntry.getDate(), historyEntry.getShareValue()
+                ));
+
+        // Sort the Map
+        Map<String, Double> sortedMap = shareValues.entrySet()
+                .stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (oldValue, newValue) -> oldValue,
+                        TreeMap::new // Maintains keys in ascending date order
+                ));
+
+        history.setShareValues(sortedMap);
+
+        return history;
     }
 }
