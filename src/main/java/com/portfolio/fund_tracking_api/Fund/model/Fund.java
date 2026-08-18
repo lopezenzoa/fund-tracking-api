@@ -14,6 +14,7 @@ public class Fund {
     private String name;
     private String date;
     private Integer totalHoldings;
+    private Double shareValue;
 
     private Map<String, Double> breakdown;
     private Set<Holding> holdings;

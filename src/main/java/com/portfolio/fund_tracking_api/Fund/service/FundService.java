@@ -4,7 +4,7 @@ import com.portfolio.fund_tracking_api.Fund.model.Fund;
 import com.portfolio.fund_tracking_api.Fund.model.Holding;
 import com.portfolio.fund_tracking_api.Fund.persistance.FundRepository;
 import com.portfolio.fund_tracking_api.Integrations.CompararFondos.adapter.CompararFondosAdapter;
-import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.CompararFondosDTO;
+import com.portfolio.fund_tracking_api.Integrations.CompararFondos.dto.FundCompositionDTO;
 import com.portfolio.fund_tracking_api.Integrations.CompararFondos.service.CompararFondosService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,8 +25,14 @@ public class FundService {
            if (fundName == null || fundName.isBlank())
                throw new IllegalArgumentException("Fund Name Undefined");
 
-           CompararFondosDTO response = externalService.getFundComposition(fundName);
+           // Get Composition
+           FundCompositionDTO response = externalService.getFundComposition(fundName);
+
+           // Get Fund History
+           FundHistoryDTO fundHistory = externalService.getFundHistory(fundName);
+
            Fund fund = CompararFondosAdapter.mapToFund(response);
+           fund = CompararFondosAdapter.mapToFund(fundHistory);
 
            if (!fund.getName().equals(fundName))
                throw new IllegalArgumentException("Fund Name Not Found");
