@@ -71,7 +71,10 @@ public class CompararFondosService {
     }
 
     private HttpResponse<String> fetchFundHistory(String fundName) throws IOException, InterruptedException {
-        String encodedFundName = URLEncoder.encode(fundName, StandardCharsets.UTF_8);
+        String completeName = fundName + " - Clase A";
+        String encodedFundName = URLEncoder.encode(completeName, StandardCharsets.UTF_8)
+                .replace("+", "%20");
+
         URI uri = URI.create(BASE_URL + "fondo/" + encodedFundName);
 
         HttpRequest request = HttpRequest.newBuilder()
