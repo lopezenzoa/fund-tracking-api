@@ -36,4 +36,16 @@ public class FundController {
             return ResponseEntity.badRequest().body(e);
         }
     }
+
+    @GetMapping("/history/{fundName}/{fromDate}")
+    public ResponseEntity<?> getShareValueHistory(
+            @PathVariable String fundName,
+            @PathVariable String fromDate
+    ) {
+        try {
+            return ResponseEntity.ok(service.getShareValueHistory(fundName, fromDate));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e);
+        }
+    }
 }
