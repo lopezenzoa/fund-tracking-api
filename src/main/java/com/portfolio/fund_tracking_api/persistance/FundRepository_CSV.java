@@ -131,7 +131,7 @@ public class FundRepository_CSV implements FundRepository {
         try (CSVWriter writer = new CSVWriter(new FileWriter(file, true))) {
             // Write Header
             if (!fileExists)
-                writer.writeNext(new String[]{"Name", "Date", "TotalHoldings"});
+                writer.writeNext(new String[]{"Fund Name", "Category", "Percentage", "Date"});
 
             // Write Rows
             if (fund.getBreakdown() != null) {
@@ -139,7 +139,8 @@ public class FundRepository_CSV implements FundRepository {
                     writer.writeNext(new String[]{
                             fund.getName(),
                             entry.getKey(),
-                            String.valueOf(entry.getValue())
+                            String.valueOf(entry.getValue()),
+                            fund.getDate()
                     });
                 }
             }
@@ -159,7 +160,7 @@ public class FundRepository_CSV implements FundRepository {
         try (CSVWriter writer = new CSVWriter(new FileWriter(file, true))) {
             // Write Header
             if (!fileExists)
-                writer.writeNext(new String[]{"Name", "Date", "TotalHoldings"});
+                writer.writeNext(new String[]{"Fund Name", "Asset", "Percentage", "Date"});
 
             // Write Rows
             if (fund.getHoldings() != null) {
@@ -167,7 +168,8 @@ public class FundRepository_CSV implements FundRepository {
                     writer.writeNext(new String[]{
                             fund.getName(),
                             holding.getName(),
-                            String.valueOf(holding.getPercentage())
+                            String.valueOf(holding.getPercentage()),
+                            fund.getDate()
                     });
                 }
             }
