@@ -41,8 +41,9 @@ public class CompararFondosAdapter {
 
         Set<Holding> holdings = composition.getHoldings() != null
                 ? composition.getHoldings().stream()
-                .map(h -> new Holding(h.getName(), h.getPercentage()))
-                .collect(Collectors.toSet())
+                    .map(h -> new Holding(h.getName(), h.getPercentage()))
+                    .sorted(Comparator.comparingDouble(Holding::getPercentage).reversed())
+                    .collect(Collectors.toCollection(LinkedHashSet::new))
                 : Collections.emptySet();
 
         FundHistoryDTO.HistoryEntryDTO historyEntries = this.history.getHistory().getLast();
