@@ -19,24 +19,6 @@ public class FundController {
         }
     }
 
-    @GetMapping("/holdings/{fundName}")
-    public ResponseEntity<?> getHoldings(@PathVariable String fundName) {
-        try {
-            return ResponseEntity.ok(service.getHoldings(fundName));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e);
-        }
-    }
-
-    @GetMapping("/breakdown/{fundName}")
-    public ResponseEntity<?> getBreakdown(@PathVariable String fundName) {
-        try {
-            return ResponseEntity.ok(service.getBreakdown(fundName));
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e);
-        }
-    }
-
     @GetMapping("/history/{fundName}/{fromDate}")
     public ResponseEntity<?> getShareValueHistory(
             @PathVariable String fundName,

@@ -2,7 +2,6 @@ package com.portfolio.fund_tracking_api.service;
 
 import com.portfolio.fund_tracking_api.model.Fund;
 import com.portfolio.fund_tracking_api.model.History;
-import com.portfolio.fund_tracking_api.model.Holding;
 import com.portfolio.fund_tracking_api.persistance.FundRepository;
 import com.portfolio.fund_tracking_api.external.adapters.CompararFondosAdapter;
 import com.portfolio.fund_tracking_api.external.dto.FundCompositionDTO;
@@ -54,14 +53,6 @@ public class FundService {
        } catch (IllegalArgumentException e) {
            throw new IllegalArgumentException(e);
        }
-    }
-
-    public Set<Holding> getHoldings(String fundName) {
-        return getComplete(fundName).getHoldings();
-    }
-
-    public Map<String, Double> getBreakdown(String fundName) {
-        return getComplete(fundName).getBreakdown();
     }
 
     public History getShareValueHistory(String fundName, String fromDate) {
