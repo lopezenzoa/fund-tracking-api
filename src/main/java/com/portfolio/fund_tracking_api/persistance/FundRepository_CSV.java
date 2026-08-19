@@ -131,7 +131,7 @@ public class FundRepository_CSV implements FundRepository {
         try (CSVWriter writer = new CSVWriter(new FileWriter(file, true))) {
             // Write Header
             if (!fileExists)
-                writer.writeNext(new String[]{"Name", "Date", "TotalHoldings", "Share Value"});
+                writer.writeNext(new String[]{"Name", "Date", "TotalHoldings"});
 
             // Write Rows
             if (fund.getBreakdown() != null) {
@@ -159,7 +159,7 @@ public class FundRepository_CSV implements FundRepository {
         try (CSVWriter writer = new CSVWriter(new FileWriter(file, true))) {
             // Write Header
             if (!fileExists)
-                writer.writeNext(new String[]{"Name", "Date", "TotalHoldings", "Share Value"});
+                writer.writeNext(new String[]{"Name", "Date", "TotalHoldings"});
 
             // Write Rows
             if (fund.getHoldings() != null) {
@@ -196,7 +196,10 @@ public class FundRepository_CSV implements FundRepository {
                         .put(category, percentage);
             }
         } catch (IOException | CsvValidationException e) {
-            throw new RuntimeException("Error reading fund_breakdown.csv", e);
+            throw new RuntimeException(
+                    "Error reading " + Arrays.stream(BREAKDOWN_FILE_PATH.split("/")).toList().getLast(),
+                    e
+            );
         }
 
         return resultMap;
@@ -219,7 +222,10 @@ public class FundRepository_CSV implements FundRepository {
                         .add(new Holding(holdingName, percentage));
             }
         } catch (IOException | CsvValidationException e) {
-            throw new RuntimeException("Error reading fund_holdings.csv", e);
+            throw new RuntimeException(
+                    "Error reading " + Arrays.stream(HOLDINGS_FILE_PATH.split("/")).toList().getLast(),
+                    e
+            );
         }
 
         return resultMap;
@@ -236,7 +242,10 @@ public class FundRepository_CSV implements FundRepository {
                 }
             }
         } catch (IOException | CsvValidationException e) {
-            throw new RuntimeException("Error reading fund_info.csv", e);
+            throw new RuntimeException(
+                    "Error reading " + Arrays.stream(FUND_INFORMATION_FILE_PATH.split("/")).toList().getLast(),
+                    e
+            );
         }
         return null;
     }
@@ -255,7 +264,10 @@ public class FundRepository_CSV implements FundRepository {
                 }
             }
         } catch (IOException | CsvValidationException e) {
-            throw new RuntimeException("Error reading fund_breakdown.csv", e);
+            throw new RuntimeException(
+                    "Error reading " + Arrays.stream(BREAKDOWN_FILE_PATH.split("/")).toList().getLast(),
+                    e
+            );
         }
 
         return breakdown;
@@ -275,7 +287,10 @@ public class FundRepository_CSV implements FundRepository {
                 }
             }
         } catch (IOException | CsvValidationException e) {
-            throw new RuntimeException("Error reading fund_holdings.csv", e);
+            throw new RuntimeException(
+                    "Error reading " + Arrays.stream(HOLDINGS_FILE_PATH.split("/")).toList().getLast(),
+                    e
+            );
         }
 
         return holdings;
