@@ -1,6 +1,7 @@
 package com.portfolio.fund_tracking_api.service;
 
 import com.portfolio.fund_tracking_api.model.Fund;
+import com.portfolio.fund_tracking_api.model.FundVariation;
 import com.portfolio.fund_tracking_api.model.History;
 import com.portfolio.fund_tracking_api.persistance.FundRepository;
 import com.portfolio.fund_tracking_api.external.adapters.CompararFondosAdapter;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Getter
@@ -76,5 +78,32 @@ public class FundService {
         return new CompararFondosAdapter()
                 .setHistory(fundHistory)
                 .adaptToHistory();
+    }
+
+    public List<FundVariation> getShareValueVariation(String fundName, String fromDate) {
+        History shareValueHistory = getShareValueHistory(fundName, fromDate);
+
+        List<FundVariation> fundVariation = new ArrayList<>();
+
+        List<String> dates = shareValueHistory.getShareValues().keySet().stream()
+                .toList();
+
+        for (int i = 0; i < shareValueHistory.getShareValues().size(); i++) {
+            Double lastVariation = i == 0
+                    ? 0.0
+                    : shareValueHistory.getShareValues().get(dates.get(i - 1));
+
+            Double currentVariation = shareValueHistory.getShareValues().get(dates.get(i));
+
+            fundVariation.add(
+                    new FundVariation(
+                            dates.get(i),
+                            shareValueHistory.getShareValues().get(dates.get(i)),
+                            currentVariation - lastVariation
+                            )
+            );
+        }
+
+        return fundVariation;
     }
 }

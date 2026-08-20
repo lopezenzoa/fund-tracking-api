@@ -1,5 +1,6 @@
 package com.portfolio.fund_tracking_api.controller;
 
+import com.portfolio.fund_tracking_api.model.FundVariation;
 import com.portfolio.fund_tracking_api.service.FundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,18 @@ public class FundController {
     ) {
         try {
             return ResponseEntity.ok(service.getShareValueHistory(fundName, fromDate));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e);
+        }
+    }
+
+    @GetMapping("/variation/{fundName}/{fromDate}")
+    public ResponseEntity<?> getShareValueVariation(
+            @PathVariable String fundName,
+            @PathVariable String fromDate
+    ) {
+        try {
+            return ResponseEntity.ok(service.getShareValueVariation(fundName, fromDate));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e);
         }
