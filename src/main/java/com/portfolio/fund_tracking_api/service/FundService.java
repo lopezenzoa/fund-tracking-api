@@ -59,18 +59,20 @@ public class FundService {
         // Fetch from CompararFondos API the complete Fund History of share values
         FundHistoryDTO fundHistory = externalService.getFundHistory(fundName);
 
-        // Filter share values between today and date parameter
-        List<FundHistoryDTO.HistoryEntryDTO> filteredHistory = fundHistory.getHistory().stream()
-                .filter(historyEntry ->
-                        ChronoUnit.DAYS.between(
-                                LocalDate.parse(fromDate),
-                                LocalDate.parse(historyEntry.getDate())
-                        ) > 0
-                )
-                .toList();
+        if (!fromDate.trim().isBlank()) {
+            // Filter share values between today and date parameter
+            List<FundHistoryDTO.HistoryEntryDTO> filteredHistory = fundHistory.getHistory().stream()
+                    .filter(historyEntry ->
+                            ChronoUnit.DAYS.between(
+                                    LocalDate.parse(fromDate),
+                                    LocalDate.parse(historyEntry.getDate())
+                            ) > 0
+                    )
+                    .toList();
 
-        // Set the HistoryDTO with the filtered list
-        fundHistory.setHistory(filteredHistory);
+            // Set the HistoryDTO with the filtered list
+            fundHistory.setHistory(filteredHistory);
+        }
 
         // Adapt from HistoryDTO to History
         return new CompararFondosAdapter()

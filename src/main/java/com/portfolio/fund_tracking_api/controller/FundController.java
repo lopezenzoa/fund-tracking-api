@@ -19,10 +19,10 @@ public class FundController {
         }
     }
 
-    @GetMapping("/history/{fundName}/{fromDate}")
+    @GetMapping("/history/{fundName}")
     public ResponseEntity<?> getShareValueHistory(
             @PathVariable String fundName,
-            @PathVariable String fromDate
+            @RequestParam(name = "from", required = false, defaultValue = "") String fromDate
     ) {
         try {
             return ResponseEntity.ok(service.getShareValueHistory(fundName, fromDate));
