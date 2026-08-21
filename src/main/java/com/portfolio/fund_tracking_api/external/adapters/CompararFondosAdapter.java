@@ -7,23 +7,21 @@ import com.portfolio.fund_tracking_api.external.dto.FundCompositionDTO;
 import com.portfolio.fund_tracking_api.external.dto.FundHistoryDTO;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class CompararFondosAdapter {
     private FundCompositionDTO composition;
-    private FundHistoryDTO history;
+    private FundHistoryDTO historyDTO;
 
     public CompararFondosAdapter setComposition(FundCompositionDTO composition) {
         this.composition = composition;
         return this;
     }
 
-    public CompararFondosAdapter setHistory(FundHistoryDTO history) {
-        this.history = history;
+    public CompararFondosAdapter setHistoryDTO(FundHistoryDTO historyDTO) {
+        this.historyDTO = historyDTO;
         return this;
     }
 
@@ -46,7 +44,7 @@ public class CompararFondosAdapter {
                     .collect(Collectors.toCollection(LinkedHashSet::new))
                 : Collections.emptySet();
 
-        FundHistoryDTO.HistoryEntryDTO historyEntries = this.history.getHistory().getLast();
+        FundHistoryDTO.HistoryEntryDTO historyEntries = this.historyDTO.getHistory().getLast();
 
         return new Fund(
                 composition.getBaseName(),
@@ -59,30 +57,29 @@ public class CompararFondosAdapter {
     }
 
     public History adaptToHistory() {
-        History history = new History();
+        History historyEntity = new History();
+        List<History.ShareValue> shareValues = new ArrayList<>();
 
-        history.setFundName(this.history.getName());
+        historyEntity.setFundName(this.historyDTO.getName());
 
-        // Map of share values
-        Map<String, Double> shareValues = new TreeMap<>();
+        for (int i = 0; i < this.historyDTO.getHistory().size(); i++) {
+            Double lastVariation = i == 0
+                    ? 0.0
+                    : this.historyDTO.getHistory().get(i - 1).getShareValue();
 
-        this.history.getHistory()
-                .forEach(historyEntry -> shareValues.put(
-                        historyEntry.getDate(), historyEntry.getShareValue()
-                ));
+            Double currentVariation = this.historyDTO.getHistory().get(i).getShareValue();
 
-        // Sort the Map
-        Map<String, Double> sortedMap = shareValues.entrySet()
-                .stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        Map.Entry::getValue,
-                        (oldValue, newValue) -> oldValue,
-                        TreeMap::new // Maintains keys in ascending date order
-                ));
+            shareValues.add(
+                    new History.ShareValue(
+                            historyDTO.getHistory().get(i).getDate(),
+                            historyDTO.getHistory().get(i).getShareValue(),
+                            Math.floor(currentVariation - lastVariation)
+                    )
+            );
+        }
 
-        history.setShareValues(sortedMap);
+        historyEntity.setShareValues(shareValues);
 
-        return history;
+        return historyEntity;
     }
 }
