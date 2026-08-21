@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Map;
+import java.util.List;
 
 @Getter
 @Setter
@@ -13,5 +13,15 @@ import java.util.Map;
 @AllArgsConstructor
 public class History {
     private String fundName;
-    private Map<String, Double> shareValues;
+    private List<ShareValue> shareValues;
+
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class ShareValue {
+        private String date;
+        private Double shareValue;
+        private Double variation;
+    }
 }
